@@ -1,6 +1,6 @@
 /**
  * @file src/pages/DemoPage.tsx
- * @description Interactive demo page showing the complete learning & rewards journey
+ * @description Event Participation Demo page showing the complete participation & rewards journey
  */
 
 import { useState } from 'react';
@@ -27,25 +27,28 @@ import axios from 'axios';
 
 const API_BASE = (import.meta as unknown as { env: Record<string, string> }).env?.VITE_API_URL || 'http://localhost:3001';
 
-// Demo course data
+// Demo event data - Workshop/Competition/Club Event
 const demoCourse = {
-  id: 'blockchain-101',
-  title: 'Blockchain Fundamentals',
-  description: 'Master the basics of blockchain technology, smart contracts, and decentralized applications.',
-  duration: '2 hours',
+  id: 'hackathon-2025',
+  title: 'Blockchain Hackathon 2025',
+  description: 'Participate in our annual blockchain hackathon. Build innovative DApps, compete with teams, and win prizes!',
+  duration: '3 days',
   modules: [
-    { id: 1, title: 'What is Blockchain?', duration: '15 min', completed: false },
-    { id: 2, title: 'How Mining Works', duration: '20 min', completed: false },
-    { id: 3, title: 'Smart Contracts Explained', duration: '25 min', completed: false },
-    { id: 4, title: 'Building Your First DApp', duration: '30 min', completed: false },
-    { id: 5, title: 'Security Best Practices', duration: '20 min', completed: false },
+    { id: 1, title: 'Team Registration', duration: '10 min', completed: false },
+    { id: 2, title: 'Opening Ceremony', duration: '1 hr', completed: false },
+    { id: 3, title: 'Workshop: Smart Contracts', duration: '2 hrs', completed: false },
+    { id: 4, title: 'Project Submission', duration: '1 hr', completed: false },
+    { id: 5, title: 'Final Presentation', duration: '1 hr', completed: false },
   ],
   reward: {
     tokens: 100,
-    credential: 'Blockchain Fundamentals Certificate',
-    badge: '🎓'
+    credential: 'Hackathon Participant Certificate',
+    badge: ''
   }
 };
+
+// Alias for backward compatibility
+const demoCourse = demoEvent;
 
 type DemoStep = 'intro' | 'learning' | 'completing' | 'minting' | 'rewarding' | 'claiming' | 'complete';
 
@@ -184,9 +187,9 @@ export default function DemoPage() {
           >
             <Play className="w-12 h-12 text-violet-600" />
           </motion.div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Interactive Demo 🎬</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">Event Participation Demo 🎬</h2>
           <p className="text-slate-600 mb-6">
-            Experience the complete learning journey: complete a course, earn a credential NFT, and claim your token rewards!
+            Experience the complete participation journey: Participate in an event, earn a credential NFT, and claim your token rewards!
           </p>
           <motion.button
             onClick={() => useWalletStore.getState().connect()}
@@ -270,7 +273,7 @@ export default function DemoPage() {
             </motion.div>
             <h1 className="text-3xl font-bold text-slate-900 mb-3">Welcome to the Demo! 🎉</h1>
             <p className="text-slate-600 max-w-lg mx-auto mb-8">
-              You're about to experience the complete TRCS learning journey. Complete a course, 
+              You're about to experience the complete TRCS participation journey. Participate in an event, 
               receive a credential NFT, and earn token rewards—all on the blockchain!
             </p>
             <div className="bg-slate-50 rounded-xl p-6 max-w-md mx-auto mb-8">
@@ -292,7 +295,7 @@ export default function DemoPage() {
               whileTap={{ scale: 0.98 }}
             >
               <Play className="w-5 h-5" />
-              Start Learning
+              Start Participating
             </motion.button>
           </motion.div>
         )}
@@ -406,7 +409,7 @@ export default function DemoPage() {
             >
               <CheckCircle2 className="w-12 h-12" />
             </motion.div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Course Completed! 🎉</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-3">Event Completed! 🎉</h2>
             <p className="text-slate-600 max-w-md mx-auto mb-8">
               Congratulations! You've finished all {demoCourse.modules.length} modules of {demoCourse.title}. 
               Now let's mint your credential NFT!
@@ -620,7 +623,7 @@ export default function DemoPage() {
               </motion.div>
               <h1 className="text-4xl font-bold mb-2 relative">Demo Complete! 🎉</h1>
               <p className="text-white/80 text-lg relative">
-                You've experienced the full TRCS learning & rewards journey
+                You've experienced the full TRCS participation & rewards journey
               </p>
             </motion.div>
 
@@ -635,7 +638,7 @@ export default function DemoPage() {
                 <div className="w-14 h-14 rounded-2xl bg-violet-100 flex items-center justify-center mx-auto mb-3">
                   <BookOpen className="w-7 h-7 text-violet-600" />
                 </div>
-                <h3 className="font-bold text-slate-900 mb-1">Course Completed</h3>
+                <h3 className="font-bold text-slate-900 mb-1">Event Completed</h3>
                 <p className="text-sm text-slate-600">{demoCourse.title}</p>
                 <p className="text-xs text-slate-400 mt-1">{demoCourse.modules.length} modules</p>
               </motion.div>

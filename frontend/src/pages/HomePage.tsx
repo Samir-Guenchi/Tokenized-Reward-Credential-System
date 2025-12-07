@@ -66,15 +66,15 @@ export default function HomePage() {
   const features = [
     {
       icon: Coins,
-      title: 'Earn While You Learn',
-      description: 'Complete courses and quizzes to earn TRCS tokens. Your effort actually pays off here.',
+      title: 'Earn Through Participation',
+      description: 'Participate in workshops, competitions, and club events to earn TRCS tokens. Your involvement pays off!',
       color: 'text-amber-500',
       bgColor: 'bg-amber-50'
     },
     {
       icon: Award,
-      title: 'Credentials That Stick',
-      description: 'Get blockchain-verified certificates that nobody can dispute or take away from you.',
+      title: 'Verifiable Credentials',
+      description: 'Get blockchain-verified certificates for workshops, hackathons, and events that nobody can dispute.',
       color: 'text-indigo-500',
       bgColor: 'bg-indigo-50'
     },
@@ -95,7 +95,7 @@ export default function HomePage() {
   ];
 
   const stats = [
-    { value: '2,847', label: 'Active Learners', icon: Users },
+    { value: '2,847', label: 'Active Participants', icon: Users },
     { value: '156K', label: 'TRCS Distributed', icon: TrendingUp },
     { value: '1,203', label: 'Credentials Issued', icon: Award },
     { value: '99.9%', label: 'Uptime', icon: Zap }
@@ -109,13 +109,13 @@ export default function HomePage() {
     },
     {
       step: '02',
-      title: 'Start Learning',
-      description: 'Pick a course, watch some videos, take a quiz. The usual stuff.'
+      title: 'Join Event',
+      description: 'Join a workshop, compete in a hackathon, or attend club events.'
     },
     {
       step: '03',
       title: 'Earn Rewards',
-      description: 'Complete milestones and watch your TRCS balance grow automatically.'
+      description: 'Complete activities and watch your TRCS balance grow automatically.'
     },
     {
       step: '04',
@@ -143,7 +143,7 @@ export default function HomePage() {
           <div className="text-center max-w-3xl mx-auto">
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
               <Sparkles className="w-4 h-4 text-amber-400" />
-              <span className="text-sm font-medium">Built different. Built on blockchain.</span>
+              <span className="text-sm font-medium">Reward student participation on blockchain.</span>
             </motion.div>
             
             <motion.h1 
@@ -151,9 +151,9 @@ export default function HomePage() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
               style={{ lineHeight: '1.1' }}
             >
-              Learn stuff.{' '}
+              Participate.{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                Get paid.
+                Get rewarded.
               </span>
               <br />
               Own your credentials.
@@ -163,8 +163,8 @@ export default function HomePage() {
               variants={itemVariants}
               className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto"
             >
-              TRCS is your corner of the blockchain where learning actually rewards you. 
-              No corporate fluff, just real tokens and verifiable credentials.
+              TRCS rewards student participation in workshops, competitions, and club events with blockchain tokens. 
+              Real tokens and verifiable credentials for your campus involvement.
             </motion.p>
             
             <motion.div 
@@ -177,7 +177,7 @@ export default function HomePage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Start Earning
+                  Join Events
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </motion.button>
               </Link>
@@ -415,7 +415,7 @@ function claimReward(
             variants={itemVariants}
             className="text-3xl lg:text-4xl font-bold text-white mb-6"
           >
-            Ready to start earning?
+            Ready to Join Events?
           </motion.h2>
           <motion.p 
             variants={itemVariants}
