@@ -48,8 +48,6 @@ const demoCourse = {
 };
 
 // Alias for backward compatibility
-const demoCourse = demoEvent;
-
 type DemoStep = 'intro' | 'learning' | 'completing' | 'minting' | 'rewarding' | 'claiming' | 'complete';
 
 export default function DemoPage() {
