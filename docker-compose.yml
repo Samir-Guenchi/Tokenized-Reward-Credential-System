@@ -1,0 +1,155 @@
+# =============================================================================
+# TRCS Docker Compose Configuration
+# =============================================================================
+# This file defines all services needed to run the complete TRCS stack locally.
+#
+# Usage:
+#   docker-compose up -d          # Start all services
+#   docker-compose logs -f        # View logs
+#   docker-compose down           # Stop all services
+#   docker-compose down -v        # Stop and remove volumes
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # Blockchain Node (Local Development)
+  # ===========================================================================
+  hardhat:
+    build:
+      context: .
+      dockerfile: Dockerfile.hardhat
+    container_name: trcs-hardhat
+    ports:
+      - "8545:8545"
+    volumes:
+      - hardhat-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8545"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - trcs-network
+
+  # ===========================================================================
+  # Backend API
+  # ===========================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: trcs-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - RPC_URL=http://hardhat:8545
+      - REDIS_URL=redis://redis:6379
+      - IPFS_HOST=ipfs
+      - IPFS_PORT=5001
+    env_file:
+      - ./backend/.env
+    depends_on:
+      hardhat:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - trcs-network
+
+  # ===========================================================================
+  # Frontend
+  # ===========================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: trcs-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - trcs-network
+
+  # ===========================================================================
+  # Redis (Caching)
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: trcs-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - trcs-network
+
+  # ===========================================================================
+  # IPFS Node
+  # ===========================================================================
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: trcs-ipfs
+    ports:
+      - "4001:4001"     # P2P
+      - "5001:5001"     # API
+      - "8080:8080"     # Gateway
+    volumes:
+      - ipfs-data:/data/ipfs
+    environment:
+      - IPFS_PROFILE=server
+    networks:
+      - trcs-network
+
+  # ===========================================================================
+  # PostgreSQL (Optional - for production)
+  # ===========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: trcs-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=trcs
+      - POSTGRES_PASSWORD=trcs_password
+      - POSTGRES_DB=trcs
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trcs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - trcs-network
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  trcs-network:
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  hardhat-data:
+  redis-data:
+  ipfs-data:
+  postgres-data:
